@@ -38,7 +38,7 @@ class SingleDrink extends React.Component {
 
         </div>
         <div className="container">
-          <h2 className="has-text-centered"> {strInstructions} </h2>
+          <h2 className="has-text-centered"> {strInstructions}</h2>
         </div>
 
 
