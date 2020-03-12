@@ -89,8 +89,10 @@ The routing of our page are:
       </div>
 
   ```
-- The challenge of fetching from the right endpoint depending on the filter the user chose 
-   - 
+
+- The mini challenge of fetching from the right endpoint depending on the filter the user chose and passing the link down 
+   - Because the endpoints for the different filters were different, we had to write a function to ensure that we generated the right url to fetch from so that it returns the data matching the user's filtered requirements. Below is the code for  searchResultLink(). It's purpose is to generate the correct link to conduct the fetch request.
+ 
 
   ```js
    SearchResultLink() {
@@ -122,6 +124,22 @@ The routing of our page are:
     }
   }
   ```
+
+- The real challenge: passing the generated fetch link down to the SearchResult component 
+   - This was really important because the SearchResult component had to receive the link (linkToFetch) in order to make a fetch request then render the data we get back from the fetch request. 
+   - We tried several ways to pass linkToFetch down to the SearchResult component. 
+       - For example we tried to pass the variable linkToFetch down [in hindsight, I think this did not work because the function SearchResultLink() was not called).
+       - In this end, [this post](https://medium.com/@bopaiahmd.mca/how-to-pass-props-using-link-and-navlink-in-react-router-v4-75dc1d9507b4)was our saving grace. Using the following code, we were able to pass the correct link down to the SearchResult component successfully: 
+  ```js
+        <Link
+          to={{
+            pathname: '/searchResults',
+            url: this.SearchResultLink() 
+          }}
+          className="button is-link">Search
+        </Link>
+  ```
+
 
 ### The Search Results page 
 
