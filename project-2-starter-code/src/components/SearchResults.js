@@ -29,11 +29,21 @@ class SearchResults extends React.Component {
     axios.get(linktoFetchSearchResults)
       .then(res => {
         console.log('response', res.data)
-
+        const smallDrinksArray = res.data.drinks.map((drink) => {
+          return this.getDrinks(drink)
+        })
+        console.log('smallDrinks', smallDrinksArray)
         this.setState({ data: res.data.drinks })
       })
   }
 
+  getDrinks(drink) {//puts in big drink i.e lots of info, outputs small drink with 3 info fields we need 
+    return {
+      idDrink: drink.idDrink,  //extracting .idDrink out of drink, what we pass to getDrinks(drink) <---- 
+      strDrink: drink.strDrink,
+      strDrinkThumb: drink.strDrinkThumb
+    }
+  }
 
 
   render() {
