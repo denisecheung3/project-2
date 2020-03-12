@@ -26,6 +26,7 @@ Please do feel free to spice up your night and find a great drink with Cocktaili
 - React.js
 - HTML, JSX
 - CocktailDB API
+- Axios 
 - Webpack
 - Git and GitHub
 - Bulma, SCSS
@@ -54,7 +55,55 @@ The routing of our page are:
 
 
 
-### The homepage  
+### The homepage (and NavBar)
+- A very straightforward homepage. On deskstop, the background image rendered is a landscape cocktail image whereas on mobile, it is a different cocktail portriat. 
+
+- The more interesting part is the NavBar (rendered on all pages). If the user is on a mobile device, there will be a 'burger' on the top right corner, and the NavBar will only appear if the user clicks on the burger. We utilised state in the NavBar component to keep track of whether the burger is true (navbar is visible) or false (navbar is not visible): 
+ 
+ ```js
+      class NavBar extends React.Component {
+        constructor() {
+          super()
+          this.state = {
+            burger: false
+          }
+        }
+        handleBurger() {
+          this.setState({ burger: !this.state.burger })
+        }
+
+        render() {
+          return <nav className="navbar">
+            <div className="container">
+              <a role="button" className="navbar-burger burger" onClick={() => this.handleBurger()}>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
+
+              <div className={this.state.burger ? "navbar-menu is-active" : "navbar-menu"}>
+                <div className="navbar-end">
+                  <div className="navbar-item">
+                    <Link to="/"> Home </Link>
+                  </div>
+                  <div className="navbar-item">
+                    <Link to="/drinks"> Drinks </Link>
+                  </div>
+                  <div className="navbar-item">
+                    <Link to="/search"> Search </Link>
+                  </div>
+                  <div className="navbar-item">
+                    <Link to="/favourites"> Favourites </Link>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </nav>
+        }
+
+      }
+  ```
 
 
 ### The Drinks page with dropdown menu to select a category (used DrinkCard component)
