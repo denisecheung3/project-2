@@ -1,6 +1,6 @@
 
 ### ![GA](https://cloud.githubusercontent.com/assets/40461/8183776/469f976e-1432-11e5-8199-6ac91363302b.png) General Assembly, Software Engineering Immersive
-# Cocktailicious 
+# Drinkalicious 
 
 by [Denise Cheung](https://github.com/denisecheung3) & [Ben Harris](https://github.com/)
 
@@ -13,7 +13,7 @@ After deliberation, we have decicded to go with the CocktailDB API and built a w
 - Search for drinks by name, ingredient or alcoholic/non-alcholic 
 - Favourite any drinks they come across and access this in the 'favourites' tab 
 
-Please do feel free to spice up your night and find a great drink with Cocktailicious [here](link), or find the  GitHub repo [here](link).
+Please do feel free to spice up your night and find a great drink with Drinkalicious [here](link), or find the  GitHub repo [here](link).
 
 ## Brief
 - **Consume a public API** – this could be anything but it must make sense for your project.
@@ -191,10 +191,33 @@ The routing of our page are:
 
 
 ### The Search Results page 
+- The SearchResults component receives a prop: SearchResultLink(), from SearchForm component. This prop is accessible via **this.props.location.url** in the SearchResults component. We stored this.props.location.url in a constant **linktoFetchSearchResults**.  Which we fetch:
+
+  ```js
+  componentDidMount() {
+    const linktoFetchSearchResults = this.props.location.url
+    axios.get(**linktoFetchSearchResults**)
+      .then(res => {
+
+       ... and so on
+  ```
+
+
+
+- The challenge of inconsistent data returned when fetching from different filtering endpoints 
+  - For example, when we fetched from the endpoint **filter.php?a=Alcoholic** (for alcoholic filter) and  **filter.php?i=Apple juice** (for ingredient filter), every drink that matched the filter was an object, and that object had 3 properties: “strDrink”, “strDrinkThumb” and “idDrink”. [screenshot] 
+  - However, when we fetched from the endpoint ** ** (for search field filter), the data returned was different. Every drink that matched the filter was an object, and that object had more than 3 properties: [screenshot] 
+
+  - This meant that ... 
+
+
+
+
+
 
 ### The Favourited Drinks page (used DrinkCard component) 
 
-### The Shared Component : DrinkCard 
+### The Shared Component:DrinkCard 
 
 
 
