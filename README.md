@@ -56,11 +56,72 @@ The routing of our page are:
 
 ### The homepage  
 
+
 ### The Drinks page with dropdown menu to select a category (used DrinkCard component)
 
-### The Single Drink page (used DrinkCard component)
+### The Single Drink page 
 
 ### The Search Form page 
+- The form consists of (a) a search field, where a user can search by typing in the name of a drink, (b) a dropdown menu which included a list of ingredients that the user can search by, (c)an 'Alcoholic?' tickbox where the user can filter drinks by alcoholic/non-alcoholic and (d) a submit button to submit that form.
+
+- Getting the field, dropdown menu and tickbox to render on the page was straightforward using Bulma. 
+- The challenge of mutual exclusivity with API 
+  -  The API is limiting in that filters cannot be combined. This meant that we could not, for example, fetch alcoholic drinks with the ingredient lemon. As a result of this, we had to tailor our UX. As soon as one of filters are applied, the other filters are disabled. This ensured that the user can only apply one filter to his or her search. Below is an example for the ingredient dropdown menu field. If search field or isAlcoholic checkbox field is true (i.e used), then disabled=true. We relied on the state to keep track of the status of the fields.
+
+
+  ```js
+      <div className="field">
+        <label className="label">Ingredient</label>
+        <div className="control">
+          <div className="select">
+            <select
+              onChange={(event) => this.handleChange(event)}
+              name="ingredient"
+              disabled={this.state.searchName || this.state.isAlcoholic}
+            >
+              <option value="">Select ingredient</option>
+              {this.state.ingredients.map((ingredient, index) => {
+                return <option key={index}> {ingredient.strIngredient1} </option>
+              })}
+            </select>
+          </div>
+        </div>
+      </div>
+
+  ```
+- The challenge of fetching from the right endpoint depending on the filter the user chose 
+   - 
+
+  ```js
+   SearchResultLink() {
+    const { searchName, ingredient, isAlcoholic } = this.state
+    let linkToFetch = 'https://www.thecocktaildb.com/api/json/v1/1/'
+    const searchCheck = searchName === null
+    const ingredientCheck = ingredient === null
+    const alcoholicCheck = isAlcoholic === true
+
+    //if alcholic box ticked
+    if (searchCheck && ingredientCheck && alcoholicCheck) {//i want if they are both false
+      linkToFetch += 'filter.php?a=Alcoholic'
+      console.log(linkToFetch)
+      return linkToFetch
+    }
+
+    //if user decides to use search field 
+    if (!searchCheck && ingredientCheck && !alcoholicCheck) {
+      linkToFetch += `search.php?s=${searchName}`
+      console.log(linkToFetch)
+      return linkToFetch
+    }
+
+    // if dropdown menu used 
+    if (searchCheck && !ingredientCheck && !alcoholicCheck) {
+      linkToFetch += `filter.php?i=${ingredient}`
+      console.log(linkToFetch)
+      return linkToFetch
+    }
+  }
+  ```
 
 ### The Search Results page 
 
