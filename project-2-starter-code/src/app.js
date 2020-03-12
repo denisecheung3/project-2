@@ -13,6 +13,7 @@ import Search from './components/Search'
 import Home from './components/Home'
 import NavBar from './components/NavBar'
 import SingleDrink from './components/SingleDrink'
+import SearchResults from './components/SearchResults'
 
 
 const App = () => (
@@ -23,6 +24,7 @@ const App = () => (
       <Route exact path="/drinks" component={Drinks} />
       <Route exact path="/search" component={Search} />
       <Route path="/drink/:id" component={SingleDrink} />
+      <Route exact path="/searchResults" component={SearchResults} />
 
 
 

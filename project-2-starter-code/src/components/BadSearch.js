@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 
+
 class Search extends React.Component {
   constructor() {
     super()
@@ -9,26 +10,21 @@ class Search extends React.Component {
       searchName: null,
       ingredients: null,
       ingredient: null,
-      isAlcoholic: false
+      isAlcoholic: false,
+      url: null
 
     }
   }
 
   handleSubmit() {
     event.preventDefault()
-    // axios.get
-  }
+    // console.log(this.SearchResultLink())
+    // let finalFetchLink
+    // finalFetchLink = this.SearchResultLink()
+    // console.log(finalFetchLink)
+    // console.log(this.SearchResultLink())
+    // this.props.history.push(`//${res.data._id}`))
 
-  handleChange(event) {
-    const { name, value } = event.target
-    const state = { ...this.state, [name]: value } //uses the name of the field for the key of the state. Name here is referring to state key! 
-    this.setState(state)
-    this.SearchResultLink()
-
-  }
-
-  handleCheckboxChange(event) {
-    this.setState({ isAlcoholic: event.target.checked })
   }
 
   SearchResultLink() {
@@ -46,38 +42,53 @@ class Search extends React.Component {
     }
 
     //if user decides to use search field 
-    if (!searchCheck && ingredientCheck && !alcoholicCheck) {
+    else if (!searchCheck && ingredientCheck && !alcoholicCheck) {
       linkToFetch += `search.php?s=${searchName}`
       console.log(linkToFetch)
       return linkToFetch
     }
 
     // if dropdown menu used 
-    if (searchCheck && !ingredientCheck && !alcoholicCheck) {
+    else if (searchCheck && !ingredientCheck && !alcoholicCheck) {
       linkToFetch += `filter.php?i=${ingredient}`
       console.log(linkToFetch)
       return linkToFetch
     }
   }
 
+  handleChange(event) {
+    const { name, value } = event.target
+    const state = { ...this.state, [name]: value } //uses the name of the field for the key of the state. Name here is referring to state key! 
+    this.setState(state)
+    this.SearchResultLink()
+    console.log(this.SearchResultLink())
+
+  }
+
+  handleCheckboxChange(event) {
+    this.setState({ isAlcoholic: event.target.checked })
+
+  }
+
+
   componentDidMount() {
     axios.get('https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list')
       .then(res => {
-        console.log(res)
+        // console.log(res)
         const array = res.data.drinks.sort((a, b) => (a.strIngredient1 > b.strIngredient1) ? 1 : -1)
-        console.log(array)
+        // console.log(array)
         this.setState({ ingredients: array }) //res.data is an array of objects. each object is like this {strIngredient1: "Light rum"}
       })
       .catch(err => console.error(err))
   }
 
   render() {
-    console.log(this.state)
+    // console.log(this.state)
     // console.log(this.state.ingredients) //to check that I succesfully set the ingredients
     if (!this.state.ingredients) return null
     return <section className="section">  <form
       className="form"
-      onSubmit={(event) => this.handleSubmit(event)} //need to write a handleSubmit function that takes us to the search results component? 
+    //need to write a handleSubmit function that takes us to the search results component? 
     >
       {/* name of drink field  */}
       <div className="field">
@@ -131,20 +142,12 @@ class Search extends React.Component {
 
       <div className="control">
         <Link
-          to={{
-            pathname: '/searchResults',
-            url: this.SearchResultLink()
-          }}
-          className="button is-link">Search</Link>
+          to={{ pathname: '/searchResults', state: { url: Search.finalFetchLink } }}
+          className="button is-link" type="submit"
+          onClick={() => this.handleSubmit(event)}
+        >Search </Link>
       </div>
       <div className="control"></div>
-
-
-
-
-
-
-
 
     </form>
     </section>
