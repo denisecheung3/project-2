@@ -30,7 +30,10 @@ class Drinks extends React.Component {
       <div className="container">
         <div className="columns is-mobile is-multiline">
           {data.map(drink => {
-            return <DrinkCard key={drink.idDrink} drink={drink} /> //drink is what we call it so we can recieve it in DrinkCard and {drink} is object of a drink which differs from every time we map
+            return <DrinkCard
+              key={drink.idDrink}
+              drink={drink} //was drink={drink}
+            /> //drink is what we call it so we can recieve it in DrinkCard and {drink} is object of a drink which differs from every time we map
           })}
         </div>
       </div>

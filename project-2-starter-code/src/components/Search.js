@@ -122,7 +122,6 @@ class Search extends React.Component {
               name="isAlcoholic"
               checked={this.state.isAlcoholic}
               disabled={this.state.searchName || this.state.ingredient}
-
             />
             Alcoholic ?
           </label>
