@@ -75,7 +75,7 @@ class Search extends React.Component {
     console.log(this.state)
     // console.log(this.state.ingredients) //to check that I succesfully set the ingredients
     if (!this.state.ingredients) return null
-    return <section className="section">  <form
+    return <div className="flexcontainer"> <section className="section formoutline"> <div className="container"> <form
       className="form"
       onSubmit={(event) => this.handleSubmit(event)} //need to write a handleSubmit function that takes us to the search results component? 
     >
@@ -146,7 +146,9 @@ class Search extends React.Component {
 
 
     </form>
+    </div>
     </section>
+    </div>
 
   }
 

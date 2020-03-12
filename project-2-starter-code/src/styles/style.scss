@@ -1,0 +1,57 @@
+.favourite {
+  background-color: gold;
+}
+
+.background-image {
+  background-image: url('https://www.wallpapermania.eu/download/2013-04/4818/Cocktail-with-lime-and-ice-Macro-HD-wallpaper_2560x1600.jpg');
+  background-size: cover;
+  background-position: center;
+  // object-fit: contain;
+  // width: 100%;
+  // height: 100%
+
+}
+
+
+.formoutline {
+  // flex: 1;
+  background-color: gold;
+  width: 40vw;
+  margin-top: 10vh
+
+}
+
+.flexcontainer {
+  display: flex;
+  justify-content: center;
+
+}
+
+.categoriesdropdown {
+margin-bottom: 20px;
+}
+
+.outerbackground {
+  background-color: red;
+}
+
+.innerbackground {
+  background-color: white;
+  padding: 20px;
+  margin-left: 10vw;
+  margin-right: 10vw
+}
+
+
+@media only screen and (max-width: 500px){
+  .background-image {
+    background-image: url('https://besthqwallpapers.com/Uploads/20-3-2018/44939/cocktail-cocktail-glass-splashes-neon-light-martini.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .formoutline {
+    flex: 1;
+    margin-top: 0
+  }
+}

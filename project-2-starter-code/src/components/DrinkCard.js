@@ -1,9 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import favourites from '../lib/favourites'
+
 
 const DrinkCard = ({ drink }) => {
   // console.log(drink)
   const { strDrink, strDrinkThumb, idDrink } = drink
+  const isFavourite = favourites.checkFavourites(idDrink)
   return <div className="column is-one-quarter-desktop is-one-third-tablet is-half-mobile">
     <div className="card">
       <div className="card-image">
@@ -11,7 +14,7 @@ const DrinkCard = ({ drink }) => {
           <img src={strDrinkThumb} alt="Placeholder image" />
         </figure>
       </div>
-      <div className="card-content">
+      <div className={isFavourite ? 'favourite card-content' : 'card-content'}>
         {/* We get the id from the cheese object we recieved in the
         response. We use this id to construct a link to a specific cheese */}
         <Link className="subtitle" to={`/drink/${idDrink}`}>{strDrink}</Link>

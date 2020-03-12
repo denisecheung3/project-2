@@ -1,6 +1,8 @@
 import React from 'react'
 import axios from 'axios'
 import DrinkCard from './DrinkCard'
+import CategorySelect from './CategorySelect'
+import favourites from '../lib/favourites'
 
 class Drinks extends React.Component {
   constructor() {
@@ -11,7 +13,7 @@ class Drinks extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail')
+    axios.get('https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Beer')
       .then(res => {
         console.log(res.data)
         this.setState({ data: res.data.drinks })
@@ -19,6 +21,19 @@ class Drinks extends React.Component {
       .catch(err => console.error(err))
 
   }
+
+
+  handleChange(event) {
+    console.log(event.target.value)
+    this.getNewCategoryData(event.target.value)
+  }
+
+  getNewCategoryData(category) {
+    const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`
+    axios.get(url)
+      .then(res => this.setState({ data: res.data.drinks }))
+  }
+
   render() {
 
     const { data } = this.state
@@ -26,8 +41,13 @@ class Drinks extends React.Component {
     if (!data) {
       return <h1> loading </h1>
     }
-    return <section className="section">
+    return <section className="section outerbackground">
       <div className="container">
+      </div>
+      <div className="container innerbackground">
+        <div className="select categoriesdropdown ">
+          <CategorySelect onChange={(event) => this.handleChange(event)} />
+        </div>
         <div className="columns is-mobile is-multiline">
           {data.map(drink => {
             return <DrinkCard
