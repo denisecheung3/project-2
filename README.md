@@ -2,7 +2,7 @@
 ### ![GA](https://cloud.githubusercontent.com/assets/40461/8183776/469f976e-1432-11e5-8199-6ac91363302b.png) General Assembly, Software Engineering Immersive
 # Drinkalicious 
 
-by [Denise Cheung](https://github.com/denisecheung3) & [Ben Harris](https://github.com/)
+by [Denise Cheung](https://github.com/denisecheung3) & [Ben Harris](https://github.com/benharris8)
 
 ## Overview
 
@@ -119,11 +119,52 @@ The routing of our page are:
 
 - Clicking on an individual drink card would take the user to the single drink page. E.g: the endpoint /drink/11118 (this would be the single drink page for the drink with the id 11118).  
 
-- this.state.isFavourite and this.state.ingredients 
+- The Single drink page would display all the information for the selected drink. To do this we passed the selected drink's ID to the page through the URL and did an axios.get request to the https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id} end point with the ID (see details below at The Shared Component:DrinkCard :id - the special syntax in react router) 
+
+- Challenge: limitation of API with singleDrink
+  - The API did not return a list of ingredient and the amount of ingredient needed:
+       - <img src="./assets/screenshots/noingredientpairs.jpg" width="450"/>  
+
+  - To solve this problem we had to write a function getIngredients(data) to return an array of ingredient and ingredient measurement pairs. (i.e [ [strIngredient1, strMeasure1], [strIngredient2, strMeasure2]... ] ). The function defines a counter ‘i’ and loops through while strIngredient{i} is not null and pairs it in an array with the strMeasure{i} then adds the newIngredient array to the final array (**ingredients array**) which is returned.
+We then use the **ingredients array** from this function to populate the ingredients list for the drink by first storing it in this.state.ingredients.
+
+     ```js
+        getIngredients(data) {
+          const ingredients = []
+          const drink = data[0]
+          let i = 1
+          //loops through keys labelled strIngredient + increment 
+          while (drink[`strIngredient${i}`] !== null) {
+            const newIngredient = [drink[`strIngredient${i}`], drink[`strMeasure${i}`]]
+            //sets key to equal the drink ingredient at key strIngredient + increment
+            ingredients.push(newIngredient) //ingredients is the final array
+            i++
+          }
+          return ingredients
+        }
+
+     ```
+  - The getIngredients(data) function is called in componentDidMount() when we set the state for this.state.ingredients : 
+
+     ```js
+        componentDidMount() {
+          const id = this.props.match.params.id
+          axios.get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`)
+            .then(res => {
+              this.setState({
+                data: res.data.drinks,
+                ingredients: this.getIngredients(res.data.drinks) 
+              })
+            })
+
+        }
+     ```
+
+- function  handleChecked()
+- this.state.isFavourite 
 - function checkIfFavourite() 
 - using CheckBox component 
-- function getIngredients(data) - to get the ingredient and it's measurement/serving size 
-- function  handleChecked()
+
 
 ### The Search Form page 
 - The form consists of (a) a search field, where a user can search by typing in the name of a drink, (b) a dropdown menu which included a list of ingredients that the user can search by, (c)an 'Alcoholic?' tickbox where the user can filter drinks by alcoholic/non-alcoholic and (d) a submit button to submit that form.
@@ -265,6 +306,40 @@ The routing of our page are:
      ```
 
 ### The Favourited Drinks page (uses DrinkCard component) 
+- Local storage is used to track which drinks the user has favourited. 
+
+- In order to do this we created a javascript file in a lib folder with functions related to adding, removing and retriving favourited drinks from local storage. We exported this file so the functions can be accessed anywhere in the application. 
+
+- function addFavourites(drink) 
+   - This function's purpose is to store a drink into localstorage whenever user favourites a drink 
+  ```js
+    function addFavourite(drink) {
+      const { idDrink, strDrink, strDrinkThumb } = drink;
+      localStorage.setItem(idDrink, ['favouriteDrink', strDrink, strDrinkThumb]);
+    }
+     ```
+
+   - Each favourited drink is stored in local storage with the drink's ID as the key and an array of items as the value. The first item in this array will always be 'FavouriteDrink'. For example, if there is only one favourited drink in local storage, localStorage would look like this: 
+      ```js
+      { 
+         id: ['favouriteDrink', strDrink, strDrinkThumb] 
+                  } 
+
+
+         ```
+
+- function checkFavourites(id)
+   - This function's purpose is check whether a given drink is a favourited drink by taking the drink's ID. The function returns false if the ID isn't in local storage, and true if it is 
+
+  ```js
+      function checkFavourites(id) {
+        if (localStorage.getItem(id) === null) {
+          return false
+        }
+        return true
+      }
+     ```
+(continue with the small drink thing - function stores a 'small drink' 
 
 ### The Shared Component:DrinkCard 
 - The DrinkCard component is used by three components: Drinks, SearchResults and Favourites. 
@@ -364,6 +439,7 @@ The routing of our page are:
 
 - Ability to conduct a search by searching with multi-ingredients (need premium access to API) 
 - Generate a random beverage by category (could be very interactive and engaging if this is a button on the homepage) 
+- On the Favourites page, there is a cross button so the user can remove a favourited drink directly from the Favourites page. 
 
 
 ## Bugs 
