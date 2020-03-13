@@ -108,7 +108,22 @@ The routing of our page are:
 
 ### The Drinks page with dropdown menu to select a category (uses DrinkCard component)
 
+- Default: displays drinks in the beer category 
+- Whenever the user changes the option on the dropdox menu, it will call the function handleChange() with event so handleChange(event). 
+
+- handleChange() calls function getNewCategoryData(category). This function generates the url to fetch, fetches returns 
+
+
+
 ### The Single Drink page 
+
+- Clicking on an individual drink card would take the user to the single drink page. E.g: the endpoint /drink/11118 (this would be the single drink page for the drink with the id 11118).  
+
+- this.state.isFavourite and this.state.ingredients 
+- function checkIfFavourite() 
+- using CheckBox component 
+- function getIngredients(data) - to get the ingredient and it's measurement/serving size 
+- function  handleChecked()
 
 ### The Search Form page 
 - The form consists of (a) a search field, where a user can search by typing in the name of a drink, (b) a dropdown menu which included a list of ingredients that the user can search by, (c)an 'Alcoholic?' tickbox where the user can filter drinks by alcoholic/non-alcoholic and (d) a submit button to submit that form.
@@ -299,6 +314,37 @@ The routing of our page are:
   </div>
 
      ```
+
+- When browsing drinks of a specific category (on the Drinks page), or looking through drinks that came back from search (on SearchResults page) or looking through user's favourited drinks (on Favourites page) the user can click on a single DrinkCard to learn more about that particular drink. 
+- When a drink is clicked, it will take the user to the end point in the format of, for example, /drink/11118 (the id of the drink is 11118): 
+  ```js
+     <Link className="subtitle" to={`/drink/${idDrink}`}>{strDrink}</Link>
+
+  ```
+
+- This route is as followed and the component SingleDrink will be rendered: 
+  ```js
+      <Route path="/drink/:id" component={SingleDrink} />
+
+  ```
+
+- :id - the special syntax in react router 
+  - As we used syntax :id in the path, react router is going to pass the id as a prop to the SingleDrink component. The prop is accessible in SingleDrink via "this.props.match.params.id" 
+  - This is extremely useful and important as the SingleDrink component requires the id of the drink in order to make a fetch request for that particular drink: 
+
+  ```js
+  [in SingleDrink.js] 
+  componentDidMount() {
+    const id = this.props.match.params.id
+    axios.get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`)
+      .then(res => {
+        this.setState({
+          data: res.data.drinks,
+
+      [and so on....] 
+
+  ```
+
 
 ## Screenshots
 
