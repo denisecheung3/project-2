@@ -17,7 +17,6 @@ class SearchResults extends React.Component {
   }
 
 
-
   componentDidMount() {
     // const linkToFetch = Search.SearchResultLink()
     // console.log(this.props.location)
@@ -29,33 +28,33 @@ class SearchResults extends React.Component {
     axios.get(linktoFetchSearchResults)
       .then(res => {
         console.log('response', res.data)
-        const smallDrinksArray = res.data.drinks.map((drink) => {
-          return this.getDrinks(drink)
-        })
-        console.log('smallDrinks', smallDrinksArray)
+        // const smallDrinksArray = res.data.drinks.map((drink) => {
+        //   return this.getDrinks(drink)
+        // })
+        // console.log('smallDrinks', smallDrinksArray)
         this.setState({ data: res.data.drinks })
       })
   }
 
-  getDrinks(drink) {//puts in big drink i.e lots of info, outputs small drink with 3 info fields we need 
-    return {
-      idDrink: drink.idDrink,  //extracting .idDrink out of drink, what we pass to getDrinks(drink) <---- 
-      strDrink: drink.strDrink,
-      strDrinkThumb: drink.strDrinkThumb
-    }
-  }
+  // getDrinks(drink) {//puts in big drink i.e lots of info, outputs small drink with 3 info fields we need 
+  //   return {
+  //     idDrink: drink.idDrink,  //extracting .idDrink out of drink, what we pass to getDrinks(drink) <---- 
+  //     strDrink: drink.strDrink,
+  //     strDrinkThumb: drink.strDrinkThumb
+  //   }
+  // }
 
 
   render() {
     // if (!this.state.data) return null
     if (this.state.data === null) return null
-    return <section className="section">
-      <div className="container">
+    return <section className="section outerbackground">
+      <div className="container innerbackground">
         <div className="columns is-mobile is-multiline">
           {/* {console.log('data', this.state.data[0])} */}
           {this.state.data.map((drink, index) => {
             return <DrinkCard
-              drink={drink}
+              drink={drink} //on the left is what matters for the receiving component to access the prop's value
               key={index}
             />
           })}

@@ -51,21 +51,20 @@ class SingleDrink extends React.Component {
     //if isFavourite = false then it affects below logic
     const id = this.props.match.params.id
     if (!isFavourite) { //if it's not favourite, need to add it. 
-      favourites.addFavourite(this.state.data[0])
+      favourites.addFavourite(this.state.data[0]) // WHAT IS FAVOURITES 
     } else if (isFavourite && favourites.checkFavourites(id)) {
       favourites.removeFavourite(id)
     }
     this.setState({ isFavourite: !isFavourite })
   }
 
-
   render() {
     if (!this.state.data) return null //without this it'll break because initial startup data = null and it's trying to get this.state.data.strDrink for example, from null 
     const { strDrink, strCategory, strAlcoholic, strGlass, strInstructions, strDrinkThumb } = this.state.data[0] //want these specific properties from this.state.data to render  e.g: this.state.data.strDrink 
     console.log(this.state.data) //this.state.data is an array! 
-    return <section className="section">
-      <div className="container">
-        <h1 className="has-text-centered"> {strDrink} </h1>
+    return <section className="section singledrinkouterbackground">
+      <div className="container singledrinkinfo">
+        <h1 className="has-text-centered title"> {strDrink} </h1>
         <div className="container">
           <Checkbox
             checked={this.state.isFavourite} //if checked, checked= true we set this.state.isFavourite to true 
@@ -79,7 +78,7 @@ class SingleDrink extends React.Component {
                 <img src={strDrinkThumb} />
               </div>
               <div className="column is-two-thirds has-text-centered">
-                <h2 className="subtitle">cocktail ingredients</h2>
+                <h2 className="subtitle is-size-5"> Ingredients</h2>
                 {this.state.ingredients.map((ingredient, key) => {
                   return <p key={key}>{ingredient[0]} {ingredient[1]}</p>
                 })}
@@ -88,7 +87,7 @@ class SingleDrink extends React.Component {
           </section>
         </div>
         <div className="container">
-          <h2 className="has-text-centered"> {strInstructions}</h2>
+          <h2 className="has-text-centered"> Instructions: {strInstructions}</h2>
         </div>
 
 

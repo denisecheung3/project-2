@@ -7,7 +7,7 @@ const DrinkCard = ({ drink }) => {
   // console.log(drink)
   const { strDrink, strDrinkThumb, idDrink } = drink
   const isFavourite = favourites.checkFavourites(idDrink)
-  return <div className="column is-one-quarter-desktop is-one-third-tablet is-half-mobile">
+  return <div className="column is-one-quarter-desktop is-one-third-tablet is-full-mobile">
     <div className="card">
       <div className="card-image">
         <figure className="image is-4by3">

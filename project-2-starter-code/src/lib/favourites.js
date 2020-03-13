@@ -1,8 +1,8 @@
 function checkFavourites(id) {
   if (localStorage.getItem(id) === null) {
-    return false;
+    return false
   }
-  return true;
+  return true
 }
 
 function addFavourite(drink) {

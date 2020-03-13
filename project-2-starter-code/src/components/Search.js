@@ -108,7 +108,6 @@ class Search extends React.Component {
                 return <option key={index}> {ingredient.strIngredient1} </option>
               })}
             </select>
-            {/* BUT WHERE TO STORE THE one the user chooses MAYBE A 'SELECTED INGREDIENT' in this.state */}
           </div>
         </div>
       </div>
@@ -132,7 +131,7 @@ class Search extends React.Component {
         <Link
           to={{
             pathname: '/searchResults',
-            url: this.SearchResultLink()
+            url: this.SearchResultLink() //calling this.SEarchResultLink() returns a link.  url: linkToFetch 
           }}
           className="button is-link">Search</Link>
       </div>

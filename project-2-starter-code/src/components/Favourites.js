@@ -17,15 +17,17 @@ class Favourites extends React.Component {
       return <h1> loading </h1>
     }
     console.log(favouritesLogic.getFavourites())
-    return <section className="section">
-      <div className="container">
-        <div className="columns is-mobile is-multiline">
-          {favourites.map(favourite => {
-            return <DrinkCard key={favourite.idDrink} drink={favourite} />
-          })}
+    return <div className="favouriteContainer">
+      <section className="section">
+        <div className="container innerbackground">
+          <div className="columns is-mobile is-multiline">
+            {favourites.map(favourite => {
+              return <DrinkCard key={favourite.idDrink} drink={favourite} />
+            })}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   }
 }
 
