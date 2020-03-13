@@ -106,7 +106,7 @@ The routing of our page are:
   ```
 
 
-### The Drinks page with dropdown menu to select a category (used DrinkCard component)
+### The Drinks page with dropdown menu to select a category (uses DrinkCard component)
 
 ### The Single Drink page 
 
@@ -190,7 +190,7 @@ The routing of our page are:
   ```
 
 
-### The Search Results page 
+### The Search Results page (uses DrinkCard component) 
 - The SearchResults component receives a prop: SearchResultLink(), from SearchForm component. This prop is accessible via **this.props.location.url** in the SearchResults component. We stored this.props.location.url in a constant **linktoFetchSearchResults**.  Which we fetch:
 
   ```js
@@ -205,24 +205,100 @@ The routing of our page are:
 
 
 - The challenge of inconsistent data returned when fetching from different filtering endpoints 
-  - For example, when we fetched from the endpoint **filter.php?a=Alcoholic** (for alcoholic filter) and  **filter.php?i=Apple juice** (for ingredient filter), every drink that matched the filter was an object, and that object had 3 properties: “strDrink”, “strDrinkThumb” and “idDrink”. [screenshot] 
-  - However, when we fetched from the endpoint ** ** (for search field filter), the data returned was different. Every drink that matched the filter was an object, and that object had more than 3 properties: [screenshot] 
+  - For example, when we fetched from the endpoint **filter.php?a=Alcoholic** (for alcoholic filter) and  **filter.php?i=Apple juice** (for ingredient filter e.g: if user chose apple juice ingredient), every drink that matched the filter was an object, and that object had 3 properties: “strDrink”, “strDrinkThumb” and “idDrink”. For convenience we will refer to this as 'big drink'. [screenshot] 
 
-  - This meant that ... 
+  - However, when we fetched from the endpoint, **search.php?s=margarita** (for search field filter, e.g: if user chose to search margarita), the data returned was different. Every drink that matched the filter was an object, and that object had more than 3 properties. For convenience we will refer to this as 'big drink'. [screenshot].  
+
+  - Inititially we thought we had to write a function to filter out info we did not need, to turn 'big drink' into a 'small drink' with the 3 properties we are interested in:
+
+  ```js
+  getDrinks(drink
+    return {
+      idDrink: drink.idDrink,  
+      strDrink: drink.strDrink,
+      strDrinkThumb: drink.strDrinkThumb
+    }
+  }
+     ```
+  - and then turning any big drink into small drink before we store it in this.state.data 
+
+  ```js
+  componentDidMount() {
+    const linktoFetchSearchResults = this.props.location.url
+    axios.get(linktoFetchSearchResults)
+      .then(res => {
+        const smallDrinksArray = res.data.drinks.map((drink) => {
+          return this.getDrinks(drink)
+        })
+        this.setState({ data: smallDrinksArray })
+      })
+  }
+     ```
 
 
+  - But after looking through and testing our code, we realised we did not need all that code! We had overcomplicated things. We can simply pass down all the information be it a big drink or small drink to DrinkCard, and in DrinkCard destructure the 3 properties we need from drink in order to render it! I will discuss in detail about DrinkCard receiving the prop in The Shared Component:DrinkCard section below. 
 
+  ```js
+  [in SearchResults.js]
+  componentDidMount() {
+    const linktoFetchSearchResults = this.props.location.url
+    axios.get(linktoFetchSearchResults)
+      .then(res => {
+        this.setState({ data: res.data.drinks })
+      })
+  }
+     ```
 
-
-
-### The Favourited Drinks page (used DrinkCard component) 
+### The Favourited Drinks page (uses DrinkCard component) 
 
 ### The Shared Component:DrinkCard 
+- The DrinkCard component is used by three components: Drinks, SearchResults and Favourites. 
+- Each component that uses DrinkCard, when mapping over the array of drinks (data returned from fetching), passes the prop 'drink', with each drink object as the value, to DrinkCard. Here is a snippet of the SearchResults component doing that: 
+  ```js
+  render() {
+    if (this.state.data === null) return null
+    return <section className="section outerbackground">
+      <div className="container innerbackground">
+        <div className="columns is-mobile is-multiline">
+          {this.state.data.map((drink, index) => { 
+            return <DrinkCard
+              drink={drink} 
+              key={index}
+            />
+          })}
+        </div>
+      </div>
+    </section>
+  }
 
+     ```
 
+- The DrinkCard receives the prop 'drink'. Each DrinkCard will be responsible for render a drink card for a different drink. We need 3 pieces of information about a single drink: the drink's name (property is named 'strDrink' in the API), drink's image ('strDrinkThumb') and drink's id ('idDrink'). 
 
+  ```js
+  const DrinkCard = ({ drink }) => {
+    const { strDrink, strDrinkThumb, idDrink } = drink
 
+     ```
 
+- DrinkCard needs the drink's id in order to direct to the user to the single drink page that shows more information about the drink the user had clicked on (for url and fetching purposes).
+
+- The DrinkCard renders the card using the info it receives: 
+  ```js
+  return <div className="column is-one-quarter-desktop is-one-third-tablet is-full-mobile">
+    <div className="card">
+      <div className="card-image">
+        <figure className="image is-4by3">
+          <img src={strDrinkThumb} alt="Placeholder image" />
+        </figure>
+      </div>
+      <div className={isFavourite ? 'favourite card-content' : 'card-content'}>
+        <Link className="subtitle" to={`/drink/${idDrink}`}>{strDrink}</Link>
+      </div>
+    </div>
+  </div>
+
+     ```
 
 ## Screenshots
 
