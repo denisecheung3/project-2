@@ -315,7 +315,11 @@ We then use the **ingredients array** from this function to populate the ingredi
 - In order to do this we created a javascript file in a lib folder with functions related to adding, removing and retriving favourited drinks from local storage. We exported this file so the functions can be accessed anywhere in the application. 
 
 - function addFavourites(drink) 
-   - This function's purpose is to store a drink into localstorage whenever user favourites a drink 
+   - This function's purpose is to store a drink into localstorage whenever user favourites a drink. 
+   - The function receives drink (which is a drink object). Before we store it to local storage, we destructure drink to take out the 3 properties we need: idDrink, strDrink and strDrinkThumb, and then store it into local storage. This is important so the Favourite Drinks page can display the DrinkCard with information we already stored in localstorage **without repeatedly fetching each favourited drink using that drink's ID**. If we had only stored the ID of the favourited drink in local storage, we would be fetching data for each favourited drink - which is undesirable espsecially if the user has alot of favourited drinks! 
+
+
+   - Addfavourite takes a drink object and adds it to local storage as described above. The drink object is a ‘small’ drink object which is related to how the API can return either a large detailed drink object or a small object with just the name, ID and image depending on which API request the user calls.
   ```js
     function addFavourite(drink) {
       const { idDrink, strDrink, strDrinkThumb } = drink;
@@ -327,13 +331,44 @@ We then use the **ingredients array** from this function to populate the ingredi
       ```js
       { 
          id: ['favouriteDrink', strDrink, strDrinkThumb] 
-                  } 
+                                                          } 
 
 
          ```
 
+- function removeFavourites(id) 
+  -  This purpose of this function is to remove a local storage item with the key of the ID passed in.
+
+
+- function getFavourites() 
+  - The function takes each item in local storage with the ‘favouritedrink’ marker described above and formats each drink as a drink object which can be read by our DrinkCard component.
+  - This is for the Favourites page, to show a list of DrinkCards that represent the user's favourited drinks.
+
+  ```js
+      function getFavourites() {
+        const totalFavourites = []
+        const storage = Object.entries(localStorage)
+        storage.forEach(entry => {
+          entry[1] = entry[1].split(',')
+          if (entry[1][0] === 'favouriteDrink') {
+            entry[1].shift()
+            entry = entry.flat()
+            const drink = {
+              idDrink: entry[0],
+              strDrink: entry[1],
+              strDrinkThumb: entry[2]
+            }
+            totalFavourites.push(drink)
+          }
+        })
+        return totalFavourites
+      }
+     ```
+
+
 - function checkFavourites(id)
    - This function's purpose is check whether a given drink is a favourited drink by taking the drink's ID. The function returns false if the ID isn't in local storage, and true if it is 
+   - This is for Drinks page (so the DrinkCard has a yellow background colour indicating that this drink has been favourited by the user) 
 
   ```js
       function checkFavourites(id) {
@@ -343,7 +378,21 @@ We then use the **ingredients array** from this function to populate the ingredi
         return true
       }
      ```
-(continue with the small drink thing - function stores a 'small drink' 
+
+- How a drink is 'favourited'
+  - In order to favourite a drink, there is a checkbox on the single drink page.
+  - <img src="./project-2-starter-code/assets/screenshots/singledrink.png" width="450"/>  
+  - The single drink component starts with the state ‘isFavourite’ which, initially, is equal to favourites.checkFavourites(id) where the id is the id of the currently selected drink. The checkbox starts as either unchecked or checked based on this state and the handleCheck function which is called onChange toggles the isFavourite state.
+The handleCheck function also adds or removes the current drink from favourites depending on if isFavourites is true or false when the checkbox is clicked.
+
+- Favourited drink and DrinkCard component 
+  - The DrinkCard component has a check for if the current drink being rendered is in the favourites and if it is it adds the favourite css class to the card content which turns the card yellow. As this is defined within the DrinkCard component which is being reused in many parts of the application this functionality applies across the site.
+
+  ```js
+      [in DrinkCard.js, among other code] 
+      <div className={isFavourite ? 'favourite card-content' : 'card-content'}>
+    ```
+
 
 ### The Shared Component:DrinkCard 
 - The DrinkCard component is used by three components: Drinks, SearchResults and Favourites. 
