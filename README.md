@@ -428,17 +428,23 @@ We then use the **ingredients array** from this function to populate the ingredi
 
 ## Screenshots
 
-![Homepage](./project-2-starter-code/assets/screenshots/homepage.png" width="450"/>  
+### Homepage 
+<img src="./project-2-starter-code/assets/screenshots/homepage.png" width="450"/>  
 
-![Drinks](./project-2-starter-code/assets/screenshots/drinks.png" width="450"/>  
+### Drinks
+<img src="./project-2-starter-code/assets/screenshots/drinks.png" width="450"/>  
 
-![Single Drink] (./project-2-starter-code/assets/screenshots/singledrink.png" width="450"/>  
+### Single Drink 
+<img src="./project-2-starter-code/assets/screenshots/singledrink.png" width="450"/>  
 
-![Search Form] (./project-2-starter-code/assets/screenshots/searchform.png" width="450"/>  
+### Single Form
+<img src="./project-2-starter-code/assets/screenshots/searchform.png" width="450"/>  
 
-![Search Results] (./project-2-starter-code/assets/screenshots/searchresults.png" width="450"/>  
+### Search Results 
+<img src="./project-2-starter-code/assets/screenshots/searchresults.png" width="450"/>  
 
-![Favourited Drinks](./project-2-starter-code/assets/screenshots/favourites.png" width="450"/>  
+### Favourited Drinks 
+<img src="./project-2-starter-code/assets/screenshots/favourites.png" width="450"/>  
 
 ## Potential future features
 
