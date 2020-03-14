@@ -13,7 +13,7 @@ After deliberation, we have decicded to go with the CocktailDB API and built a w
 - Search for drinks by name, ingredient or alcoholic/non-alcholic 
 - Favourite any drinks they come across and access this in the 'favourites' tab 
 
-Please do feel free to spice up your night and find a great drink with Drinkalicious [here](link), or find the  GitHub repo [here](link).
+Please do feel free to spice up your night and find a great drink with Drinkalicious [here](https://denisecheung3.github.io/project-2), or find the  GitHub repo [here](https://github.com/denisecheung3/project-2).
 
 ## Brief
 - **Consume a public API** – this could be anything but it must make sense for your project.
@@ -123,7 +123,8 @@ The routing of our page are:
 
 - Challenge: limitation of API with singleDrink
   - The API did not return a list of ingredient and the amount of ingredient needed:
-       - <img src="./assets/screenshots/noingredientpairs.jpg" width="450"/>  
+       - <img src="./project-2-starter-code/assets/screenshots/noingredientpairs.png" width="450"/>  
+
 
   - To solve this problem we had to write a function getIngredients(data) to return an array of ingredient and ingredient measurement pairs. (i.e [ [strIngredient1, strMeasure1], [strIngredient2, strMeasure2]... ] ). The function defines a counter ‘i’ and loops through while strIngredient{i} is not null and pairs it in an array with the strMeasure{i} then adds the newIngredient array to the final array (**ingredients array**) which is returned.
 We then use the **ingredients array** from this function to populate the ingredients list for the drink by first storing it in this.state.ingredients.
@@ -261,9 +262,12 @@ We then use the **ingredients array** from this function to populate the ingredi
 
 
 - The challenge of inconsistent data returned when fetching from different filtering endpoints 
-  - For example, when we fetched from the endpoint **filter.php?a=Alcoholic** (for alcoholic filter) and  **filter.php?i=Apple juice** (for ingredient filter e.g: if user chose apple juice ingredient), every drink that matched the filter was an object, and that object had 3 properties: “strDrink”, “strDrinkThumb” and “idDrink”. For convenience we will refer to this as 'big drink'. [screenshot] 
+  - For example, when we fetched from the endpoint **filter.php?a=Alcoholic** (for alcoholic filter) and  **filter.php?i=Apple juice** (for ingredient filter e.g: if user chose apple juice ingredient), every drink that matched the filter was an object, and that object had 3 properties: “strDrink”, “strDrinkThumb” and “idDrink”. For convenience we will refer to this as 'small drink'.
+  - <img src="./project-2-starter-code/assets/screenshots/alcoholicendpoint.png" width="450"/>
 
-  - However, when we fetched from the endpoint, **search.php?s=margarita** (for search field filter, e.g: if user chose to search margarita), the data returned was different. Every drink that matched the filter was an object, and that object had more than 3 properties. For convenience we will refer to this as 'big drink'. [screenshot].  
+
+  - However, when we fetched from the endpoint, **search.php?s=margarita** (for search field filter, e.g: if user chose to search margarita), the data returned was different. Every drink that matched the filter was an object, and that object had more than 3 properties. For convenience we will refer to this as 'big drink'. 
+ - <img src="./project-2-starter-code/assets/screenshots/searchendpoint.png" width="450"/>
 
   - Inititially we thought we had to write a function to filter out info we did not need, to turn 'big drink' into a 'small drink' with the 3 properties we are interested in:
 
@@ -290,7 +294,7 @@ We then use the **ingredients array** from this function to populate the ingredi
       })
   }
      ```
-
+     
 
   - But after looking through and testing our code, we realised we did not need all that code! We had overcomplicated things. We can simply pass down all the information be it a big drink or small drink to DrinkCard, and in DrinkCard destructure the 3 properties we need from drink in order to render it! I will discuss in detail about DrinkCard receiving the prop in The Shared Component:DrinkCard section below. 
 
@@ -303,7 +307,7 @@ We then use the **ingredients array** from this function to populate the ingredi
         this.setState({ data: res.data.drinks })
       })
   }
-     ```
+ ```
 
 ### The Favourited Drinks page (uses DrinkCard component) 
 - Local storage is used to track which drinks the user has favourited. 
@@ -392,6 +396,7 @@ We then use the **ingredients array** from this function to populate the ingredi
 
 - When browsing drinks of a specific category (on the Drinks page), or looking through drinks that came back from search (on SearchResults page) or looking through user's favourited drinks (on Favourites page) the user can click on a single DrinkCard to learn more about that particular drink. 
 - When a drink is clicked, it will take the user to the end point in the format of, for example, /drink/11118 (the id of the drink is 11118): 
+
   ```js
      <Link className="subtitle" to={`/drink/${idDrink}`}>{strDrink}</Link>
 
@@ -423,17 +428,17 @@ We then use the **ingredients array** from this function to populate the ingredi
 
 ## Screenshots
 
-![Homepage]()
+![Homepage](./project-2-starter-code/assets/screenshots/homepage.png" width="450"/>  
 
-![Drinks](./src/images/screenshots/search.png)
+![Drinks](./project-2-starter-code/assets/screenshots/drinks.png" width="450"/>  
 
-![Single Drink]
+![Single Drink] (./project-2-starter-code/assets/screenshots/singledrink.png" width="450"/>  
 
-![Search Form]
+![Search Form] (./project-2-starter-code/assets/screenshots/searchform.png" width="450"/>  
 
-![Search Results]
+![Search Results] (./project-2-starter-code/assets/screenshots/searchresults.png" width="450"/>  
 
-![Favourited Drinks]()
+![Favourited Drinks](./project-2-starter-code/assets/screenshots/favourites.png" width="450"/>  
 
 ## Potential future features
 
