@@ -54,7 +54,7 @@ class SearchResults extends React.Component {
           {/* {console.log('data', this.state.data[0])} */}
           {this.state.data.map((drink, index) => {
             return <DrinkCard
-              drink={drink} //on the left is what matters for the receiving component to access the prop's value
+              drink={drink} //on the left is what matters for the receiving component to access the prop's 
               key={index}
             />
           })}
